@@ -1,0 +1,133 @@
+{% extends "attendance_app_base/base_with_navbar.html" %}
+
+{% load static %}
+{% block title %}{{ attendance.absence_type }} | 근태관리{% endblock title %}
+<!-- content의 줄바꿈을 할때 |linebreaksbr 해줘 -->
+
+<!-- <main class="site-body">
+  <article class="attendance-detail max-content-width">
+    <div class="attendance-info">
+      <div class="user-name">
+        <span class="cp-chip green">부서명 : {{ attendance.user.team_name }}</span>
+      </div>
+      <h1 class="title">유형 : {{ attendance.absence_type }}</h1>
+      <div class="author">
+        <a class="attendance-author" href="{% url 'attendance_app:profile' attendance.id %}">
+          <div class="cp-avatar" style="background-image: url('{{attendance.user.profile_pic.url}}')" ></div>
+           <span>신청자 : {{attendance.user}}</span>
+        </a>
+      </div>
+      <date class="date">시작일 : {{ attendance.start_date }}</date>
+      <date class="date">종료일 : {{ attendance.end_date }}</date>      
+    </div>
+    <div class="content">
+      <p class="content">최종승인자 : {{ attendance.final_approver }}</p>
+    </div>
+    <div class="content">
+      {% if attendance.attachment1 %}
+      <p>첨부파일1 : 
+        <a href="{{ attendance.attachment1.url }}" download>
+          {{attendance.attachment1.name}}
+        </a>
+      </p>
+      {% endif  %}
+    </div>     
+    <div class="content">
+      {% if attendance.attachment2 %}
+        <p>첨부파일2 :
+          <a href="{{ attendance.attachment2.url }}" download>
+            {{attendance.attachment2.name}}
+          </a>
+        </p>
+      {% endif %}
+    </div>  
+    <div class="content">
+      {% if attendance.attachment3 %}
+        <p>첨부파일3 :
+          <a href="{{ attendance.attachment3.url }}" download>
+            {{attendance.attachment3.name}}
+          </a>
+        </p>
+      {% endif %}
+    </div>  
+    <div class="footer">
+      <a class="back-link" href="{% url 'attendance_app:index' %}">&lt; 목록으로</a>
+      본인 신청서만 수정할수 있도록 -->
+      <!-- {% if attendance.user == user %}
+        <div class="buttons">
+          <a class="cp-button warn" href="{% url 'attendance_app:attendance-delete' attendance.id %}">삭제</a>
+          <a class="cp-button secondary" href="{% url 'attendance_app:attendance-update' attendance.id %}">수정</a>
+        </div>
+      {% endif %}
+    </div>
+  </article>
+</main> -->
+        <!-- <div class="cp-avatar" style="background-image: url('{{attendance.user.profile_pic.url}}')" ></div> -->  
+
+{% block content %}
+<section class="text-gray-600 body-font overflow-hidden">
+  <div class="container px-5 py-24 mx-auto">
+    <div class="lg:w-4/5 mx-auto flex flex-wrap">
+      <div class="lg:w-1.1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
+        <h2 class="text-sm title-font text-gray-500 tracking-widest">BRAND NAME</h2>
+        <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">근태신청 상세내역</h1>
+
+        <div class="flex py-3">
+          <span class="text-gray-500">부서명 : </span>
+          <span class="ml-auto text-gray-900">{{ attendance.user.team_name }}</span>
+        </div>
+        <div class="flex border-t border-gray-200 py-3">
+          <span class="text-gray-500">근태유형 : </span>
+          <span class="ml-auto text-gray-900">{{ attendance.absence_type }}</span>
+        </div>
+        <div class="flex border-t border-gray-200 py-3">
+          <span class="text-gray-500">신청자 : </span>
+          <span class="ml-auto text-gray-900">
+            <a href="{% url 'attendance_app:profile' attendance.id %}">{{attendance.user.username}}</a>
+          </span>
+        </div>
+        <div class="flex border-t border-gray-200 py-3">
+          <span class="text-gray-500">시작일 : </span>
+          <span class="ml-auto text-gray-900">{{ attendance.start_date }}</span>
+        </div>
+        <div class="flex border-t border-gray-200 py-3">
+          <span class="text-gray-500">종료일 : </span>
+          <span class="ml-auto text-gray-900">{{ attendance.end_date }}</span>
+        </div>
+        {% if attendance.attachment1 %}        
+          <div class="flex border-t border-gray-200 py-3">
+              <span class="text-gray-500">첨부파일 : </span>
+              <a class="ml-auto text-gray-900" href="{{ attendance.attachment1.url }}" download="">{{attendance.attachment1.name}}</a>
+          </div>   
+        {% endif %}   
+        {% if attendance.attachment2 %}                 
+          <div class="flex border-t border-gray-200 py-3">
+              <span class="text-gray-500">첨부파일 : </span>
+              <a class="ml-auto text-gray-900" href="{{ attendance.attachment2.url }}" download="">{{attendance.attachment2.name}}</a>
+          </div>  
+        {% endif %}            
+        {% if attendance.attachment3 %}                  
+          <div class="flex border-t border-gray-200 py-3">
+              <span class="text-gray-500">첨부파일 : </span>
+              <a class="ml-auto text-gray-900" href="{{ attendance.attachment3.url }}" download="">{{attendance.attachment3.name}}</a>
+          </div> 
+        {% endif %}                   
+        <div class="flex border-t border-gray-200 py-3">
+          <span class="text-gray-500">최종승인자 : </span>
+          <span class="ml-auto text-gray-900">{{ attendance.final_approver }}</span>
+        </div> 
+        <div class="flex border-t border-gray-200 py-3"></div>             
+        <div class="flex justify-end space-x-2 mt-4">
+          <a href="{% url 'attendance_app:index' %}" class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
+            목록으로
+          </a>
+          {% if attendance.user == user %}
+            <a href="{% url 'attendance_app:attendance-delete' attendance.id %}" class="text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">삭제</a>
+            <a href="{% url 'attendance_app:attendance-update' attendance.id %}" class="text-white bg-yellow-500 border-0 py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded">수정</a>
+          {% endif %}
+        </div>                   
+      </div>    
+    </div> 
+  </div>
+</section>
+{% endblock content %}

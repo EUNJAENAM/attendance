@@ -1,0 +1,21 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <title>{% block title %}근태관리{% endblock title %}</title>    
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <!-- <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'attendance_app/styles/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'attendance_app/styles/theme.css' %}">
+    <link rel="shortcut icon" type="image/png" href="{% static 'attendance_app/favicon/favicon.ico' %}"> -->
+  </head>
+  <body>
+    <div class="">
+      {% block header %}{% endblock header %}
+      {% block content %}{% endblock content %}
+      {% block footer %}{% endblock footer %}
+    </div>
+  </body>
+</html>

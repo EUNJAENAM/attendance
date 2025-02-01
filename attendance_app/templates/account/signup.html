@@ -1,0 +1,121 @@
+{% extends "attendance_app_base/base.html" %}
+
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}회원가입 | 근태관리{% endblock title %}
+
+<!-- 
+<div class="account-background">
+  <main class="account">
+    <div class="title">
+      <a href="{% url 'attendance_app:index' %}">
+        <img class="logo" src="{% static 'attendance_app/assets/attendance_app-logo.svg' %}" alt="attendance_app Logo">
+      </a>
+    </div>
+
+    <form method="post">
+      {% csrf_token %}
+      <div>
+        {{ form.email|add_class:'cp-input'|attr:'placeholder:이메일'|add_error_class:'error' }}
+        {% for error in form.email.errors %}
+          <div class='error-message'>{{ error }}</div>
+        {% endfor %}
+      </div>
+      <div>
+        {{ form.team_name|add_class:'cp-input'|attr:'placeholder:부서명' }}
+      </div>
+      <div>
+        {{ form.grade|add_class:'cp-input'|attr:'placeholder:직책' }}
+      </div>       
+      <div>
+        {{ form.password1|add_class:'cp-input'|attr:'placeholder:비밀번호'|add_error_class:'error' }}
+        {% for error in form.password1.errors %}
+          <div class='error-message'>{{ error }}</div>
+        {% endfor %}        
+      </div>
+      <div>
+        {{ form.password2|add_class:'cp-input'|attr:'placeholder:비밀번호 확인'|add_error_class:'error'}}  
+        {% for error in form.password2.errors %}
+          <div class='error-message'>{{ error }}</div>
+        {% endfor %}              
+      </div>
+      <button class="cp-button" type="submit">회원가입</button>
+    </form>
+
+    <div class="info">
+      이미 회원이신가요?<a class="link" href="{% url 'account_login' %}">로그인</a>
+    </div>
+  </main>
+</div> -->
+
+
+{% block content %}
+  <section class="text-gray-600 body-font relative">
+    <div class="container px-5 py-24 mx-auto">
+      <div class="flex flex-col text-center w-full mb-12">
+        <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">회원가입</h1>
+        <p class="lg:w-2/3 mx-auto leading-relaxed text-base"></p>회원등록에 필요한 기존정보를 입력해 주세요</p>
+      </div>
+      <div class="lg:w-1/2 md:w-2/3 mx-auto">
+        <form method="post">
+          {% csrf_token %}
+          {% for error in form.non_field_errors %}
+            <div class="form-error error-message text-red-500 text-sm mb-4">{{ error }}</div>
+          {% endfor %}
+          <div class="p-2 w-full">
+            <div class="relative">
+              <label for="email" class="leading-7 text-sm text-gray-600">Email</label>
+              {{ form.email|add_class:'w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'|attr:'placeholder: 이메일' }}
+              {% for error in form.email.errors %}
+                <div class="form-error error-message text-red-500 text-sm mt-1">{{ error }}</div>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="p-2 w-full">
+            <div class="relative">
+              <label for="team_name" class="leading-7 text-sm text-gray-600">부서명</label>
+              {{ form.team_name|add_class:'w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'|attr:'placeholder: 부서명' }}
+              {% for error in form.team_name.errors %}
+              <div class="form-error error-message text-red-500 text-sm mt-1">{{ error }}</div>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="p-2 w-full">
+            <div class="relative">
+              <label for="grade" class="leading-7 text-sm text-gray-600">직책</label>
+              {{ form.grade|add_class:'w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'|attr:'placeholder: 직책' }}
+              {% for error in form.grade.errors %}
+              <div class="form-error error-message text-red-500 text-sm mt-1">{{ error }}</div>
+              {% endfor %}
+            </div>
+          </div>     
+          <div class="p-2 w-full">
+            <div class="relative">
+              <label for="password1" class="leading-7 text-sm text-gray-600">비밀번호1</label>
+              {{ form.password1|add_class:'w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'|attr:'placeholder: 비밀번호' }}
+              {% for error in form.password1.errors %}
+              <div class="form-error error-message text-red-500 text-sm mt-1">{{ error }}</div>
+              {% endfor %}
+            </div>
+          </div>    
+          <div class="p-2 w-full">
+            <div class="relative">
+              <label for="password2" class="leading-7 text-sm text-gray-600">비밀번호2</label>
+              {{ form.password2|add_class:'w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'|attr:'placeholder: 비밀번호' }}
+              {% for error in form.password2.errors %}
+              <div class="form-error error-message text-red-500 text-sm mt-1">{{ error }}</div>
+              {% endfor %}
+            </div>
+          </div>                        
+          <div class="p-2 w-full">
+            <button type="submit" class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">회원가입</button>
+          </div>
+        </form>
+        <div class="info text-center mt-8">이미 회원이신가요?
+          <a class="item text-indigo-500 mx-2" href="{% url 'account_login' %}">로그님</a>
+        </div>
+      </div>
+    </div>
+  </section>  
+{% endblock content %}

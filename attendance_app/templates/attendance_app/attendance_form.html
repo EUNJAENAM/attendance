@@ -1,0 +1,123 @@
+{% extends "attendance_app_base/base_with_navbar.html" %}
+
+{% load widget_tweaks %}
+
+{% block title %}
+  {% if attendance %}
+    {{ attendance.absence_type }}
+  {% else %}
+    신청서 작성
+  {% endif %} | 근태관리
+{% endblock title %}
+{% block content %}
+<main class="site-body py-8 bg-gray-50">
+  <form class="attendance-form max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md" method="post" autocomplete="off" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <!-- 근태 유형 -->
+    <div class="mb-6">
+      <label class="block text-gray-700 font-medium mb-2">근태 유형</label>
+      <div class="flex space-x-4 bg-gray-100 p-3 rounded">
+        {% for radio in form.absence_type %}
+          <label class="flex items-center space-x-2">
+            {{ radio }}
+          </label>
+        {% endfor %}
+      </div>
+      {% if form.absence_type.errors %}
+        <p class="text-red-500 text-sm mt-2">{{ form.absence_type.errors|join:", " }}</p>
+      {% endif %}
+    </div>
+
+    <!-- 시작일자 -->
+    <div class="mb-6">
+      <label for="start_date" class="block text-gray-700 font-medium mb-2">시작일자</label>
+      {{ form.start_date|add_class:'w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 p-3 bg-gray-100'|attr:'placeholder:시작일자' }}
+      {% if form.start_date.errors %}
+        <p class="text-red-500 text-sm mt-2">{{ form.start_date.errors|join:", " }}</p>
+      {% endif %}
+    </div>
+
+    <!-- 종료일자 -->
+    <div class="mb-6">
+      <label for="end_date" class="block text-gray-700 font-medium mb-2">종료일자</label>
+      {{ form.end_date|add_class:'w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 p-3 bg-gray-100'|attr:'placeholder:종료일자' }}
+      {% if form.end_date.errors %}
+        <p class="text-red-500 text-sm mt-2">{{ form.end_date.errors|join:", " }}</p>
+      {% endif %}
+    </div>
+
+    <!-- 시간 -->
+    <div class="mb-6">
+      <label for="tot_time" class="block text-gray-700 font-medium mb-2">신청시간</label>
+      {{ form.tot_time|add_class:'w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 p-3 bg-gray-100'|attr:'placeholder:신청시간' }}
+      {% if form.tot_time.errors %}
+        <p class="text-red-500 text-sm mt-2">{{ form.tot_time.errors|join:", " }}</p>
+      {% endif %}
+    </div>
+
+    <!-- 신청 사유 -->
+    <div class="mb-6">
+      <label for="reason" class="block text-gray-700 font-medium mb-2">신청 사유</label>
+      {{ form.reason|add_class:'w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 p-3 bg-gray-100'|attr:'placeholder:신청사유' }}
+      {% if form.reason.errors %}
+        <p class="text-red-500 text-sm mt-2">{{ form.reason.errors|join:", " }}</p>
+      {% endif %}
+    </div>
+
+    <!-- 첨부파일1 -->
+    <div class="mb-6">
+      <label for="attachment1" class="block text-gray-700 font-medium mb-2">첨부파일1</label>
+      {{ form.attachment1|add_class:'block w-full text-gray-700 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 file:bg-indigo-50 file:text-indigo-700 file:py-1 file:px-2 file:rounded-l-lg' }}
+      {% if form.attachment1.errors %}
+        <p class="text-red-500 text-sm mt-2">{{ form.attachment1.errors|join:", " }}</p>
+      {% endif %}
+    </div>
+
+    <!-- 첨부파일2 -->
+    <div class="mb-6">
+      <label for="attachment2" class="block text-gray-700 font-medium mb-2">첨부파일2</label>
+      {{ form.attachment2|add_class:'block w-full text-gray-700 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 file:bg-indigo-50 file:text-indigo-700 file:py-1 file:px-2 file:rounded-l-lg' }}
+      {% if form.attachment1.errors %}
+        <p class="text-red-500 text-sm mt-2">{{ form.attachment1.errors|join:", " }}</p>
+      {% endif %}
+    </div>
+
+    <!-- 첨부파일3 -->
+    <div class="mb-6">
+      <label for="attachment3" class="block text-gray-700 font-medium mb-2">첨부파일3</label>
+      {{ form.attachment3|add_class:'block w-full text-gray-700 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 file:bg-indigo-50 file:text-indigo-700 file:py-1 file:px-2 file:rounded-l-lg' }}
+      {% if form.attachment1.errors %}
+        <p class="text-red-500 text-sm mt-2">{{ form.attachment1.errors|join:", " }}</p>
+      {% endif %}
+    </div>
+
+    <!-- 버튼 -->
+    <div class="flex justify-between items-center">
+      <a 
+        class="inline-flex items-center px-4 py-2 text-gray-700 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+        href="{% if attendance %}{% url 'attendance_app:attendance-detail' attendance.id %}{% else %}{% url 'attendance_app:index' %}{% endif %}"
+      >
+        취소
+      </a>
+      <button 
+        class="px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" 
+        type="submit">
+        완료
+      </button>
+    </div>
+
+    <!-- 에러 요약 -->
+    {% if form.errors %}
+      <div class="mt-6 bg-red-50 p-4 rounded-lg border border-red-200 text-red-700">
+        <p class="font-medium">폼 에러가 발생했습니다. 아래 내용을 확인해주세요:</p>
+        <ul class="list-disc pl-6">
+          {% for field, errors in form.errors.items %}
+            <li><strong>{{ field }}:</strong> {{ errors|join:", " }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+  </form>
+</main>
+{% endblock content %}

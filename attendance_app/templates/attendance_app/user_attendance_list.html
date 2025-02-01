@@ -1,0 +1,134 @@
+{% extends "attendance_app_base/base_with_navbar.html" %}
+{% load static %}
+
+{% block title %}{{ attendance.user.username }}님의 리뷰 | 근태관리{% endblock title %}
+
+
+<!-- <main class="site-body">
+  <div class="content-list max-content-width">
+    <div class="header">
+      <h2>{{profile.user.user.username}}유저1님의 리뷰 ({{paginator.count}})</h2>
+    </div>
+
+    <div class="contents">
+      {% for attendance in user_attendance %}
+        <a href="{% url 'attendance_app:attendance-detail' attendance.id %}">
+          <div class="cp-card content">
+            <div class="thumb" style="background-image: url('{{ attendance.user.profile_pic.url }}');"></div>
+            <div class="body">
+              <span class="cp-chip green">{{ attendance.absence_type }}</span>
+              <h2 class="title">{{ attendance.reson }}</h2>
+              <date class="date">{{ attendance.start_date|date:"Y년 n월 j일" }}</date>
+              <div class="metadata">
+                <div class="review-author">
+                  <div class="cp-avatar" style="background-image: url('{{ attendance.user.profile_pic.url }}')"></div>
+                  <span>{{ attendance.user.user.usermame }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+      {% empty %}
+        <p class="empty">아직 리뷰가 없어요 :(</p>
+      {% endfor %}
+    </div>
+
+    <div class="wrap-pagination">    
+      <a class="cp-ic-button circle backbutton" href="{% url 'attendance_app:profile' profile_user.id %}">프로필로 돌아가기</a>
+      {% if is_paginated %}
+        <ul class="pagination">
+          {% if page_obj.has_previous %}
+            <li><a href="?page=1">처음</a></li>
+            <li><a href="?page={{ page_obj.previous_page_number }}">이전</a></li>
+          {% endif %}
+
+          {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+              <li class="current">{{ num }}</li>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+              <li><a href="?page={{ num }}">{{ num }}</a></li>
+            {% endif %}
+          {% endfor %}
+
+          {% if page_obj.has_next %}
+            <li><a href="?page={{ page_obj.next_page_number }}">다음</a></li>
+            <li><a href="?page={{ page_obj.paginator.num_pages }}">마지막</a></li>
+          {% endif %}
+        </ul>
+      {% endif %}
+    </div>
+  </div>
+</main> -->
+
+
+{% block content %}
+  <section class="text-gray-600 body-font overflow-hidden">
+    <div class="container px-5 py-24 mx-auto">
+      <div class="-my-8 divide-y-2 divide-gray-100">
+
+        {% for attendance in user_attendance %}
+          <div class="py-8 flex flex-wrap md:flex-nowrap">
+            <div class="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
+              <img alt="testimonial" class="w-20 h-20 mb-0 object-cover object-center rounded-full inline-block border-2 border-gray-200 bg-gray-100" src="{{attendance.user.profile_pic.url}}">              
+              <span class="font-semibold title-font text-gray-700">{{ attendance.user.username }}</span>
+              <span class="font-semibold title-font text-gray-700">{{ attendance.user.team_name }}</span>              
+            </div>
+            <div class="md:flex-grow">
+              <h2 class="text-2xl font-medium text-gray-900 title-font mb-2">{{ attendance.absence_type }}</h2>
+              <p class="leading-relaxed">{{ attendance.start_date|date:"Y-m-d h:i" }} ~ {{ attendance.end_date|date:"Y-m-d h:i" }}</p>                        
+              <p class="leading-relaxed">{{ attendance.reason }}</p>
+              <a class="text-indigo-500 inline-flex items-center mt-4" href="{% url 'attendance_app:attendance-detail' attendance.id %}">상세보기
+                <svg class="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14"></path>
+                  <path d="M12 5l7 7-7 7"></path>
+                </svg>
+              </a>
+              {% if not attendance.team_leader_approver %}
+                <form method="post" action="{% url 'attendance_app:approve-attendance' attendance.id %}">
+                  {% csrf_token %}
+                  <button class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">승인</button>
+                </form>
+              {% else %}
+                <p class="text-green-500 mt-4">승인됨: {{ attendance.team_leader_approver }}</p>
+                {% if not attendance.final_approver %}
+                  <form method="post" action="{% url 'attendance_app:approve-attendance' attendance.id %}">
+                    {% csrf_token %}
+                    <button class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">최종접수</button>
+                  </form>
+                {% else %}
+                  <p class="text-green-500 mt-4">접수완료: {{ attendance.final_approver }}</p>
+                {% endif %}  
+              {% endif %}            
+            </div>
+          </div>
+        {% empty %}
+          <h2 class="text-2xl font-medium text-gray-900 title-font mb-2">등록된 내용이 없습니다.</h2>
+        {% endfor %}
+      </div>
+
+      {% if is_paginated %}
+      <footer class="flex justify-center mt-4">
+        <ul class="inline-flex items-center space-x-2">
+          {% if page_obj.has_previous %}
+            <li><a href="?page=1" class="px-3 py-1 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100">처음</a></li>
+            <li><a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-1 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100">이전</a></li>
+          {% endif %}      
+          {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+              <li><span class="px-3 py-1 border border-indigo-500 text-white bg-indigo-500 rounded-md">{{ num }}</span></li>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+              <li><a href="?page={{ num }}" class="px-3 py-1 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100">{{ num }}</a></li>
+            {% endif %}
+          {% endfor %}      
+          {% if page_obj.has_next %}
+            <li><a href="?page={{ page_obj.next_page_number }}" class="px-3 py-1 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100">다음</a></li>
+            <li><a href="?page={{ page_obj.paginator.num_pages }}" class="px-3 py-1 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100">마지막</a></li>
+          {% endif %}
+        </ul>
+      </footer>
+      {% endif %}
+      
+  </div>
+  </section>  
+</main>
+{% endblock content %}

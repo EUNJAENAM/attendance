@@ -1,0 +1,55 @@
+{% extends "attendance_app_base/base_with_navbar.html" %}
+
+{% block content %}
+  <section class="text-gray-600 body-font overflow-hidden">
+    <div class="container px-5 py-24 mx-auto">
+      <div class="-my-8 divide-y-2 divide-gray-100">
+
+        {% for list in attendance %}
+          <div class="py-8 flex flex-wrap md:flex-nowrap">
+            <div class="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
+              <span class="font-semibold title-font text-gray-700">{{ list_abcence_type }}</span>
+              <span class="mt-1 text-gray-500 text-sm">{{ list.start_date|date:"Y-m-d h:i" }}</span>
+            </div>
+            <div class="md:flex-grow">
+              <h2 class="text-2xl font-medium text-gray-900 title-font mb-2">{{ list.user.username }}</h2>
+              <p class="leading-relaxed">{{ list.reason }}</p>
+              <a class="text-indigo-500 inline-flex items-center mt-4" href="{% url 'attendance_app:attendance-detail' list.id %}">상세보기
+                <svg class="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14"></path>
+                  <path d="M12 5l7 7-7 7"></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+        {% empty %}
+          <h2 class="text-2xl font-medium text-gray-900 title-font mb-2">아직 신청내역이 없습니다</h2>
+        {% endfor %}
+      </div>
+
+      {% if is_paginated %}
+      <footer class="flex justify-center mt-4">
+        <ul class="inline-flex items-center space-x-2">
+          {% if page_obj.has_previous %}
+            <li><a href="?page=1" class="px-3 py-1 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100">처음</a></li>
+            <li><a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-1 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100">이전</a></li>
+          {% endif %}      
+          {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+              <li><span class="px-3 py-1 border border-indigo-500 text-white bg-indigo-500 rounded-md">{{ num }}</span></li>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+              <li><a href="?page={{ num }}" class="px-3 py-1 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100">{{ num }}</a></li>
+            {% endif %}
+          {% endfor %}      
+          {% if page_obj.has_next %}
+            <li><a href="?page={{ page_obj.next_page_number }}" class="px-3 py-1 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100">다음</a></li>
+            <li><a href="?page={{ page_obj.paginator.num_pages }}" class="px-3 py-1 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100">마지막</a></li>
+          {% endif %}
+        </ul>
+      </footer>
+      {% endif %}
+      
+  </div>
+  </section>  
+</main>
+{% endblock content %}

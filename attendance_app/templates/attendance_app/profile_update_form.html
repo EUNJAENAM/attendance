@@ -1,0 +1,107 @@
+{% extends "attendance_app_base/base_with_header.html" %}
+
+{% load widget_tweaks %}
+
+{% block title %}프로필 수정 | 근태관리{% endblock title %}
+
+<!-- <main class="profile-form">
+  <form method="post" enctype="multipart/form-data" autocomplete="off">
+    {% csrf_token %}
+    <div class="profile">
+      <div class="profile-pic cp-avatar large" style="background-image: url('{{ user.profile_pic.url }}')"></div>
+      <div class="file">
+        {{ form.profile_pic }}
+      </div>
+    </div>
+    <div class="content">
+      {{ form.team_name|add_class:"cp-input"|add_error_class:"error"|attr:"placeholder: 부서명" }}
+      {% for error in form.team_name.errors %}
+        <div class="error-message">{{ error }}</div>
+      {% endfor %}
+    </div>
+    <div class="content">
+      {{ form.grade|add_class:"cp-input"|add_error_class:"error"|attr:"placeholder: 직책" }}
+      {% for error in form.grade.errors %}
+        <div class="error-message">{{ error }}</div>
+      {% endfor %}
+    </div>    
+    <div class="content">
+      {{ form.intro|add_class:"cp-input"|add_error_class:"error"|attr:"placeholder:자신을 소개해 주세요!" }}
+      {% for error in form.intro.errors %}
+        <div class="error-message">{{ error }}</div>
+      {% endfor %}
+    </div>
+    <div class="buttons">
+      <a class="cp-button secondary cancel" href="{% url 'attendance_app:profile' user.id %}">취소</a>
+      <button class="cp-button" type="submit">완료</button>
+    </div>
+  </form>
+</main> -->
+
+
+{% block content %}
+<main class="site-body py-8 bg-gray-50">
+  <form class="attendance-form max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md" method="post" autocomplete="off" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <!-- 사진 -->
+    <img alt="testimonial" class="w-40 h-40 mb-10 object-cover object-center rounded-full inline-block border-2 border-gray-200 bg-gray-100" src="{{user.profile_pic.url}}">
+    {{ form.profile_pic }}
+
+    <!-- 부서명 -->
+    <div class="mb-6">
+      <label for="team_name" class="block text-gray-700 font-medium mb-2">부서명</label>
+      {{ form.team_name|add_class:'w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 p-3 bg-gray-100'|attr:'placeholder:부서명' }}
+      {% if form.team_name.errors %}
+        <p class="text-red-500 text-sm mt-2">{{ form.team_name.errors|join:", " }}</p>
+      {% endif %}
+    </div>
+
+    <!-- 직책 -->
+    <div class="mb-6">
+      <label for="grade" class="block text-gray-700 font-medium mb-2">직책</label>
+      {{ form.grade|add_class:'w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 p-3 bg-gray-100'|attr:'placeholder:직책' }}
+      {% if form.grade.errors %}
+        <p class="text-red-500 text-sm mt-2">{{ form.grade.errors|join:", " }}</p>
+      {% endif %}
+    </div>
+
+    <!-- 소개 -->
+    <div class="mb-6">
+      <label for="intro" class="block text-gray-700 font-medium mb-2">자기소개</label>
+      {{ form.intro|add_class:'block w-full text-gray-700 border rounded-lg focus:ring-indigo-500 focus:border-indigo-500 file:bg-indigo-50 file:text-indigo-700 file:py-1 file:px-2 file:rounded-l-lg bg-gray-100' }}
+      {% if form.intro.errors %}
+        <p class="text-red-500 text-sm mt-2">{{ form.intro.errors|join:", " }}</p>
+      {% endif %}
+    </div>
+
+    <!-- 버튼 -->
+    <div class="flex justify-between items-center">
+      <a 
+        class="inline-flex items-center px-4 py-2 text-gray-700 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+        href="{% url 'attendance_app:profile' user.id %}"
+      >
+        취소
+      </a>
+      <button 
+        class="px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" 
+        type="submit">
+        완료
+      </button>
+    </div>
+
+
+    <!-- 에러 요약 -->
+    {% if form.errors %}
+      <div class="mt-6 bg-red-50 p-4 rounded-lg border border-red-200 text-red-700">
+        <p class="font-medium">폼 에러가 발생했습니다. 아래 내용을 확인해주세요:</p>
+        <ul class="list-disc pl-6">
+          {% for field, errors in form.errors.items %}
+            <li><strong>{{ field }}:</strong> {{ errors|join:", " }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+  </form>
+</main>
+{% endblock content %}

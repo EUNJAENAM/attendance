@@ -1,0 +1,32 @@
+{% extends "attendance_app_base/base_with_navbar.html" %}
+
+{% block title %}{{ attendance.absence_type }} | 근태관리{% endblock title %}
+
+{% block content %}
+<section class="text-gray-600 body-font relative">
+  <div class="container px-5 py-24 mx-auto">
+    <div class="flex flex-col text-center w-full mb-12">
+      <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">근태신청서 삭제</h1>
+    </div>
+    <div class="lg:w-full md:w-2/3 mx-auto">
+      <form method="post">
+        {% csrf_token %}
+        <div class="flex flex-col text-center w-full mb-12">
+          <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">정말 근태신청서를 삭제하시겠습니까?</h1>
+        </div>
+        <!-- 버튼 -->
+        <div class="lg:w-full md:w-2/3 mx-auto">       
+          <div class="flex justify-center items-center space-x-4">
+            <a 
+              class="inline-flex items-center px-4 py-2 text-gray-700 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+              href="{% url 'attendance_app:attendance-detail' attendance.id %}">취소</a>
+            <button 
+              class="px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" 
+              type="submit">삭제</button>
+          </div>
+        </div>
+      </form>      
+    </div>
+  </div>
+</section> 
+{% endblock content %} 
