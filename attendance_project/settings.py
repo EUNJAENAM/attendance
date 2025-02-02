@@ -25,7 +25,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY','mst6tyhx%u^p--#w1pjv-jp((h6cau&m@9tuf78nmdn#2!ej+@')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
+# DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -58,7 +59,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
-    'whitenoise.middleware.whiteNoiseMiddleware',    
+    'whitenoise.middleware.WhiteNoiseMiddleware',   
 ]
 
 ROOT_URLCONF = 'attendance_project.urls'
@@ -90,8 +91,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'attendance_db',
         'USER': 'postgres',
-        'PASSWORD': 'ej1004',
-        'HOST':'localhost',
+        'PASSWORD': os.getenv('DB_PASSWORD'),  # 환경 변수에서 비밀번호를 가져옵니다.   'ej1004',
+        'HOST': os.getenv('DB_HOST', 'localhost'),  # 환경 변수를 사용하되, 기본값으로 'localhost'를 설정합니다.'localhost',
         'PORT':'5432'
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),        
