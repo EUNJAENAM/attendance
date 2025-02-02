@@ -1,1 +1,1 @@
-web: gunicorn cinfig.wsgi:application
+web: gunicorn attendance_project.wsgi:application --log-file -
