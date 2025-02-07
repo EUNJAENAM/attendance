@@ -6,43 +6,66 @@
 {% block title %}환영합니다! | 근태관리{% endblock title %}
 
 {% block content %}
-<div class="account-background">
-  <main class="profile-form">
-    <div class="logo">
-      <img class="logo" src="{% static 'attendance_app/assets/attendance_app-logo.svg' %}" alt="Attendancee Logo">
+<div class="min-h-screen bg-slate-50 flex items-center justify-center py-12 px-4">
+  <main class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
+    <!-- 로고 섹션 -->
+    <div class="flex justify-center mb-8">
+      <img class="h-12" 
+           src="{% static 'attendance_app/assets/attendance_app-logo.svg' %}" 
+           alt="Attendance Logo">
     </div>
-    <p class="welcome-message">
-      환영합니다! <strong>프로필</strong>을 작성해주세요
+    
+    <!-- 환영 메시지 -->
+    <p class="text-center text-2xl font-medium text-gray-900 mb-8">
+      환영합니다! <span class="font-bold text-blue-600">프로필</span>을 작성해주세요
     </p>
-    <form method="post" enctype="multipart/form-data" autocomplete="off">
+
+    <!-- 프로필 폼 -->
+    <form method="post" enctype="multipart/form-data" autocomplete="off" class="space-y-6">
       {% csrf_token %}
-      <div class="profile">
-        <div class="profile-pic cp-avatar large" style="background-image: url('{{ user.profile_pic.url }}')"></div>
-        <div class="file">
+      
+      <!-- 프로필 이미지 섹션 -->
+      <div class="flex flex-col items-center space-y-4 mb-8">
+        <div class="w-32 h-32 rounded-full bg-cover bg-center border-4 border-white shadow-lg"
+             style="background-image: url('{{ user.profile_pic.url }}')">
+        </div>
+        <div class="w-full">
           {{ form.profile_pic }}
         </div>
       </div>
-      <div class="content">
-        {{ form.team_name|add_class:"cp-input"|add_error_class:"error"|attr:"placeholder:부서명" }}
-        {% for error in form.team_name.errors %}
-          <div class="error-message">{{ error }}</div>
-        {% endfor %}
-      </div>  
-      <div class="content">
-        {{ form.grade|add_class:"cp-input"|add_error_class:"error"|attr:"placeholder:직책" }}
-        {% for error in form.grade.errors %}
-          <div class="error-message">{{ error }}</div>
-        {% endfor %}
-      </div>            
-      <div class="content">
-        {{ form.intro|add_class:"cp-input"|add_error_class:"error"|attr:"placeholder:자신을 소개해 주세요!" }}
-        {% for error in form.intro.errors %}
-          <div class="error-message">{{ error }}</div>
-        {% endfor %}
+
+      <!-- 입력 필드 섹션 -->
+      <div class="space-y-4">
+        <!-- 팀명 입력 -->
+        <div>
+          {{ form.team_name|add_class:"w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"|add_error_class:"border-red-500"|attr:"placeholder:부서명" }}
+          {% for error in form.team_name.errors %}
+            <p class="mt-1 text-sm text-red-600">{{ error }}</p>
+          {% endfor %}
+        </div>
+
+        <!-- 직책 입력 -->
+        <div>
+          {{ form.grade|add_class:"w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"|add_error_class:"border-red-500"|attr:"placeholder:직책" }}
+          {% for error in form.grade.errors %}
+            <p class="mt-1 text-sm text-red-600">{{ error }}</p>
+          {% endfor %}
+        </div>
+
+        <!-- 소개 입력 -->
+        <div>
+          {{ form.intro|add_class:"w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"|add_error_class:"border-red-500"|attr:"placeholder:자신을 소개해 주세요!" }}
+          {% for error in form.intro.errors %}
+            <p class="mt-1 text-sm text-red-600">{{ error }}</p>
+          {% endfor %}
+        </div>
       </div>
-      <div class="buttons">
-        <button class="cp-button" type="submit">완료</button>
-      </div>
+
+      <!-- 제출 버튼 -->
+      <button type="submit" 
+              class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200">
+        완료
+      </button>
     </form>
   </main>
 </div>
