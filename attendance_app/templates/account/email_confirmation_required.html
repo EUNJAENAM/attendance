@@ -1,8 +1,14 @@
 {% extends "attendance_app_base/base_with_header.html" %}
 
 {% block content %}
-<div class="cp-dialog info account-password-dialog">
-  <p>근태신청서를 작성하려면 이메일 인증이 필요합니다. {{ user.email }}으로 발송된 이메일을 확인하시고 이메일 인증을 완료해 주세요.</p>
-  <a class="cp-button inverted button" href="{% url 'attendance_app:index' %}">홈으로 이동</a>
+<div class="cp-dialog info account-password-dialog min-h-[calc(100vh-4rem)] flex items-center justify-center px-4">
+  <div class="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
+    <p class="text-gray-600 mb-8">근태신청서를 작성하려면 이메일 인증이 필요합니다. {{ user.email }}으로 발송된 이메일을 확인하시고 이메일 인증을 완료해 주세요.</p>
+    
+    <a class="cp-button inverted button w-full inline-flex justify-center items-center px-6 py-3 rounded-md transition-colors duration-200 ease-in-out" 
+       href="{% url 'attendance_app:index' %}">
+      홈으로 이동
+    </a>
+  </div>
 </div>
 {% endblock content %}
