@@ -21,19 +21,17 @@
                 </tr>
             </thead>
             <tbody class="text-gray-600 text-sm font-light">
-                {% for list in attendance %}
+                {% for row in data %}
                 <tr class="border-b border-gray-200 hover:bg-gray-100">
-                    <td class="py-3 px-6">{{ list.absence_type }}</td>
-                    <td class="py-3 px-6">{{ list.start_date|date:"Y-m-d h:i" }}</td>
-                    <td class="py-3 px-6">{{ list.user.username }}</td>
-                    <td class="py-3 px-6">{{ list.reason }}</td>
-                    <td class="py-3 px-6">
-                        <a href="{% url 'attendance_app:attendance-detail' list.id %}" class="text-indigo-500 hover:text-indigo-700">상세보기</a>
-                    </td>
+                    <td class="py-3 px-6">{{ row.대분류 }}</td>
+                    <td class="py-3 px-6">{{ row.중분류 }}</td>
+                    <td class="py-3 px-6">{{ row.소분류 }}</td>
+                    <td class="py-3 px-6">{{ row.세분류 }}</td>
+                    <td class="py-3 px-6">{{ row.능력단위 }}</td>
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="5" class="py-3 px-6 text-center">아직 신청내역이 없습니다</td>
+                    <td colspan="5" class="py-3 px-6 text-center">데이터가 없습니다</td>
                 </tr>
                 {% endfor %}
             </tbody>
