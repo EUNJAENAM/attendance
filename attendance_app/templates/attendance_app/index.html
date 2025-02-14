@@ -3,12 +3,17 @@
 {% block content %}
   <section class="text-gray-600 body-font overflow-hidden">
     <div class="container px-5 py-24 mx-auto">
+      <div class="flex justify-end mb-4">
+        <a href="{% url 'attendance_app:attendance-data' %}" class="inline-flex items-center px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600">
+          구글 시트 데이터 보기
+        </a>
+      </div>
       <div class="-my-8 divide-y-2 divide-gray-100">
 
         {% for list in attendance %}
           <div class="py-8 flex flex-wrap md:flex-nowrap">
             <div class="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
-              <span class="font-semibold title-font text-gray-700">{{ list_abcence_type }}</span>
+              <span class="font-semibold title-font text-gray-700">{{ list.absence_type }}</span>
               <span class="mt-1 text-gray-500 text-sm">{{ list.start_date|date:"Y-m-d h:i" }}</span>
             </div>
             <div class="md:flex-grow">

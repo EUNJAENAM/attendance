@@ -1,45 +1,43 @@
-{% extends "attendance_app_base/base.html" %}
+{% extends "attendance_app_base/base_with_navbar.html" %}
 
 {% block content %}
-<div class="container">
-    <h1>구글 시트 데이터</h1>
-    <table class="table" id="attendance-table">
-        <thead>
-            <tr>
-                <th>대분류</th>
-                <th>중분류</th>
-                <th>소분류</th>
-                <th>세분류</th>
-                <th>능력단위</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- 데이터가 여기에 동적으로 추가됩니다. -->
-        </tbody>
-    </table>
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6">근태 데이터</h1>
+    <div class="flex justify-end mb-4">
+        <a href="{% url 'attendance_app:attendance-data' %}" class="inline-flex items-center px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600">
+            구글 시트 데이터 보기
+        </a>
+    </div>
+    
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border border-gray-300">
+            <thead>
+                <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                    <th class="py-3 px-6 text-left">대분류</th>
+                    <th class="py-3 px-6 text-left">중분류</th>
+                    <th class="py-3 px-6 text-left">소분류</th>
+                    <th class="py-3 px-6 text-left">세분류</th>
+                    <th class="py-3 px-6 text-left">능력단위</th>
+                </tr>
+            </thead>
+            <tbody class="text-gray-600 text-sm font-light">
+                {% for list in attendance %}
+                <tr class="border-b border-gray-200 hover:bg-gray-100">
+                    <td class="py-3 px-6">{{ list.absence_type }}</td>
+                    <td class="py-3 px-6">{{ list.start_date|date:"Y-m-d h:i" }}</td>
+                    <td class="py-3 px-6">{{ list.user.username }}</td>
+                    <td class="py-3 px-6">{{ list.reason }}</td>
+                    <td class="py-3 px-6">
+                        <a href="{% url 'attendance_app:attendance-detail' list.id %}" class="text-indigo-500 hover:text-indigo-700">상세보기</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="py-3 px-6 text-center">아직 신청내역이 없습니다</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
-
-<script>
-    // 구글 앱 스크립트 URL
-    const url = "https://script.google.com/macros/s/AKfycbz6pAETC_KWpIs8SsEZpSdTAw2Za4oQ9LHkUSNwCXPeOWzJYXkWNML08tFUnoYXWu55/exec";
-
-    // AJAX 요청
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            const tableBody = document.querySelector("#attendance-table tbody");
-            data.forEach(item => {
-                const row = document.createElement("tr");
-                row.innerHTML = `
-                    <td>${item.대분류}</td>
-                    <td>${item.중분류}</td>
-                    <td>${item.소분류}</td>
-                    <td>${item.세분류}</td>
-                    <td>${item.능력단위}</td>
-                `;
-                tableBody.appendChild(row);
-            });
-        })
-        .catch(error => console.error('Error fetching data:', error));
-</script>
 {% endblock content %}
