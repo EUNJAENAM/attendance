@@ -181,3 +181,16 @@ class CustomPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     
     def get_success_url(self):
         return reverse('attendance_app:profile', kwargs=({'user_id':self.request.user.id}))
+    
+# attendance_app/views.py
+
+from django.shortcuts import render
+import requests
+
+def attendance_data(request):
+    # 구글 앱 스크립트 URL
+    url = "https://script.google.com/macros/s/AKfycbz6pAETC_KWpIs8SsEZpSdTAw2Za4oQ9LHkUSNwCXPeOWzJYXkWNML08tFUnoYXWu55/exec"
+    response = requests.get(url)
+    data = response.json()  # JSON 데이터로 변환
+
+    return render(request, 'attendance_app/attendance_data.html', {'data': data})    

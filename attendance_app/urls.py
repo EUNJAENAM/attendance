@@ -1,4 +1,5 @@
 from django.urls import path
+from .views import attendance_data
 from . import views
 
 app_name = 'attendance_app'
@@ -29,4 +30,5 @@ urlpatterns = [
     path('users/<int:user_id>/attendance',views.UserAttendanceList.as_view(), name='user-attendance-list'),
     path('set-profile/', views.ProfileSetView.as_view(), name='profile-set'),
     path('edit-profile/', views.ProfileUpdateView.as_view(), name='profile-update'),
+    path('attendance-data/', attendance_data, name='attendance_data'),    
 ]
